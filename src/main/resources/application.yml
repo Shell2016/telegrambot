@@ -1,4 +1,12 @@
-spring.application.name: telegrambot
+server:
+  port: 8081
+spring:
+  application:
+    name: telegrambot
+
 bot:
   token:
-  username: my-test-bot
+  username: mybot
+feign:
+  name: sampoBotService
+  url: http://localhost:8082
