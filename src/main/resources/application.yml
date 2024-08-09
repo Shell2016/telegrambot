@@ -1,0 +1,4 @@
+spring.application.name: telegrambot
+bot:
+  token:
+  username: my-test-bot
