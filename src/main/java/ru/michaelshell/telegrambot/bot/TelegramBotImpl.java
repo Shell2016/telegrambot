@@ -3,40 +3,48 @@ package ru.michaelshell.telegrambot.bot;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
+import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsumer;
+import org.telegram.telegrambots.longpolling.starter.SpringLongPollingBot;
+import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.generics.TelegramClient;
 import ru.michaelshell.telegrambot.client.SampoBotServiceClient;
 
 @Component
-public class TelegramBotImpl extends TelegramLongPollingBot {
+public class TelegramBotImpl implements SpringLongPollingBot, LongPollingSingleThreadUpdateConsumer {
 
+    private final TelegramClient telegramClient;
     private final SampoBotServiceClient sampoBotServiceClient;
-
-    @Value("${bot.username}")
-    private String botUserName;
+    private final String token;
 
     public TelegramBotImpl(@Value("${bot.token}") String token,
                            SampoBotServiceClient sampoBotServiceClient) {
-        super(token);
+        this.telegramClient = new OkHttpTelegramClient(token);
         this.sampoBotServiceClient = sampoBotServiceClient;
+        this.token = token;
+    }
+
+    @Override
+    public String getBotToken() {
+        return this.token;
+    }
+
+    @Override
+    public LongPollingUpdateConsumer getUpdatesConsumer() {
+        return this;
     }
 
     @Override
     @SneakyThrows
-    public void onUpdateReceived(Update update) {
-        // TODO: 09.08.2024
+    public void consume(Update update) {
         long chatId = update.getMessage().getChatId();
         String response = sampoBotServiceClient.greet(chatId);
         SendMessage sendMessage = SendMessage.builder()
                 .chatId(chatId)
                 .text(response)
                 .build();
-        execute(sendMessage);
-    }
-
-    @Override
-    public String getBotUsername() {
-        return botUserName;
+        telegramClient.execute(sendMessage);
     }
 }

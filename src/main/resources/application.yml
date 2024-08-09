@@ -5,8 +5,8 @@ spring:
     name: telegrambot
 
 bot:
-  token:
-  username: mybot
+  token: 4
+
 feign:
   name: sampoBotService
   url: http://localhost:8082
