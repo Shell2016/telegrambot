@@ -5,7 +5,7 @@ spring:
     name: telegrambot
 
 bot:
-  token: 4
+  token: dummy
 
 feign:
   name: sampoBotService
