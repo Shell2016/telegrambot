@@ -6,9 +6,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.michaelshell.telegrambot.bot.Response;
 
+import java.util.List;
+
 @FeignClient(name = "${feign.name}", url = "${feign.url}")
 public interface SampoBotServiceClient {
 
     @PostMapping
-    Response processUpdate(@RequestBody Update update);
+    List<Response> processUpdate(@RequestBody Update update);
 }

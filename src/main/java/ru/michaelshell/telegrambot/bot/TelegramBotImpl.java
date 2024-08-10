@@ -9,6 +9,8 @@ import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateC
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.michaelshell.telegrambot.client.SampoBotServiceClient;
 
+import java.util.List;
+
 @Component
 public class TelegramBotImpl implements SpringLongPollingBot, LongPollingSingleThreadUpdateConsumer {
 
@@ -38,7 +40,8 @@ public class TelegramBotImpl implements SpringLongPollingBot, LongPollingSingleT
     @SneakyThrows
     public void consume(Update update) {
         if (update.getMessage() != null || update.getCallbackQuery() != null) {
-            responseSender.sendResponse(sampoBotServiceClient.processUpdate(update));
+            List<Response> responseList = sampoBotServiceClient.processUpdate(update);
+            responseList.forEach(responseSender::sendResponse);
         }
     }
 }

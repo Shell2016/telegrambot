@@ -22,6 +22,9 @@ public class ResponseSender {
 
     public void sendResponse(Response response) {
         switch (response.type()) {
+            case NO_RESPONSE -> {
+                return;
+            }
             case SEND_TEXT_MESSAGE -> sendTextMessage(response.chatId(), response.message());
             case SEND_TEXT_MESSAGE_WITH_KEYBOARD ->
                     sendTextMessageWithKeyboard(response.chatId(), response.message(), response.keyboard());
