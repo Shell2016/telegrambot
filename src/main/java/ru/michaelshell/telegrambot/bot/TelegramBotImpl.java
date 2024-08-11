@@ -6,7 +6,8 @@ import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsume
 import org.telegram.telegrambots.longpolling.starter.SpringLongPollingBot;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.michaelshell.telegrambot.client.SampoBotServiceClient;
+import ru.michaelshell.telegrambot.client.BotServiceClient;
+import ru.michaelshell.telegrambot.model.Response;
 
 import java.util.List;
 
@@ -14,14 +15,14 @@ import java.util.List;
 public class TelegramBotImpl implements SpringLongPollingBot, LongPollingSingleThreadUpdateConsumer {
 
     private final ResponseSender responseSender;
-    private final SampoBotServiceClient sampoBotServiceClient;
+    private final BotServiceClient botServiceClient;
     private final String token;
 
     public TelegramBotImpl(@Value("${bot.token}") String token,
-                           SampoBotServiceClient sampoBotServiceClient,
+                           BotServiceClient botServiceClient,
                            ResponseSender responseSender) {
         this.responseSender = responseSender;
-        this.sampoBotServiceClient = sampoBotServiceClient;
+        this.botServiceClient = botServiceClient;
         this.token = token;
     }
 
@@ -38,7 +39,7 @@ public class TelegramBotImpl implements SpringLongPollingBot, LongPollingSingleT
     @Override
     public void consume(Update update) {
         if (update.getMessage() != null || update.getCallbackQuery() != null) {
-            List<Response> responseList = sampoBotServiceClient.processUpdate(update);
+            List<Response> responseList = botServiceClient.processUpdate(update);
             responseList.forEach(responseSender::sendResponse);
         }
     }

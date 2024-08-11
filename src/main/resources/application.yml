@@ -1,12 +1,16 @@
-server:
-  port: 8081
 spring:
   application:
     name: telegrambot
 
 bot:
-  token: ${BOT_TOKEN}
+  token: dummy_token
+
+logging:
+  level:
+    root: info
+  file:
+    name: /app/logs/tgbot.log
 
 feign:
-  name: sampoBotService
+  name: botService
   url: http://localhost:8082
