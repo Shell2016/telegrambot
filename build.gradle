@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'ru.michaelshell'
-version = '0.0.1-SNAPSHOT'
+version = '1.0'
 
 java {
     toolchain {
@@ -28,7 +28,7 @@ ext {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     implementation 'org.telegram:telegrambots-springboot-longpolling-starter:7.7.2'
     implementation 'org.telegram:telegrambots-client:7.7.2'
@@ -48,4 +48,9 @@ dependencyManagement {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+tasks.named("bootBuildImage") {
+    imageName = "shell2016/${project.name}"
+    createdDate = "now"
 }

@@ -1,4 +1,4 @@
-package ru.michaelshell.telegrambot.bot;
+package ru.michaelshell.telegrambot.model;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 

@@ -1,4 +1,4 @@
-package ru.michaelshell.telegrambot.bot;
+package ru.michaelshell.telegrambot.model;
 
 public enum ResponseType {
     SEND_TEXT_MESSAGE,
