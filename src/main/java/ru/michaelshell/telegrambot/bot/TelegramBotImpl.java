@@ -1,6 +1,5 @@
 package ru.michaelshell.telegrambot.bot;
 
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsumer;
@@ -37,7 +36,6 @@ public class TelegramBotImpl implements SpringLongPollingBot, LongPollingSingleT
     }
 
     @Override
-    @SneakyThrows
     public void consume(Update update) {
         if (update.getMessage() != null || update.getCallbackQuery() != null) {
             List<Response> responseList = sampoBotServiceClient.processUpdate(update);
