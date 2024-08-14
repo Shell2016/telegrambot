@@ -20,6 +20,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class ResponseSenderTest {
 
+    private static final long CHAT_ID = 1L;
+    private static final String MESSAGE = "message";
     @Mock
     private TelegramClient telegramClient;
 
@@ -30,8 +32,8 @@ class ResponseSenderTest {
     void sendResponse_TelegramClientShouldCallExecuteAsync_IfResponseTypeSendTextMessageAsync() throws TelegramApiException {
         Response response = Response.builder()
                 .type(ResponseType.SEND_TEXT_MESSAGE_WITH_KEYBOARD_ASYNC)
-                .chatId(1L)
-                .message("message")
+                .chatId(CHAT_ID)
+                .message(MESSAGE)
                 .build();
 
         responseSender.sendResponse(response);
@@ -43,8 +45,8 @@ class ResponseSenderTest {
     void sendResponse_TelegramClientShouldCallExecute_IfResponseTypeSendTextMessage() throws TelegramApiException {
         Response response = Response.builder()
                 .type(ResponseType.SEND_TEXT_MESSAGE)
-                .chatId(1L)
-                .message("message")
+                .chatId(CHAT_ID)
+                .message(MESSAGE)
                 .build();
 
         responseSender.sendResponse(response);
@@ -56,8 +58,8 @@ class ResponseSenderTest {
     void sendResponse_TelegramClientShouldCallExecute_IfResponseTypeSendTextMessageWithKeyboard() throws TelegramApiException {
         Response response = Response.builder()
                 .type(ResponseType.SEND_TEXT_MESSAGE_WITH_KEYBOARD)
-                .chatId(1L)
-                .message("message")
+                .chatId(CHAT_ID)
+                .message(MESSAGE)
                 .build();
 
         responseSender.sendResponse(response);
@@ -69,8 +71,8 @@ class ResponseSenderTest {
     void sendResponse_TelegramClientShouldCallExecute_IfResponseTypeEditTextMessage() throws TelegramApiException {
         Response response = Response.builder()
                 .type(ResponseType.EDIT_TEXT_MESSAGE)
-                .chatId(1L)
-                .message("message")
+                .chatId(CHAT_ID)
+                .message(MESSAGE)
                 .build();
 
         responseSender.sendResponse(response);
@@ -82,8 +84,8 @@ class ResponseSenderTest {
     void sendResponse_TelegramClientShouldCallExecute_IfResponseTypeEditTextMessageWithKeyboard() throws TelegramApiException {
         Response response = Response.builder()
                 .type(ResponseType.EDIT_TEXT_MESSAGE_WITH_KEYBOARD)
-                .chatId(1L)
-                .message("message")
+                .chatId(CHAT_ID)
+                .message(MESSAGE)
                 .build();
 
         responseSender.sendResponse(response);
@@ -95,8 +97,8 @@ class ResponseSenderTest {
     void sendResponse_ShouldNotThrowAnyException_IfTelegramClientThrowsException() throws TelegramApiException {
         Response response = Response.builder()
                 .type(ResponseType.EDIT_TEXT_MESSAGE_WITH_KEYBOARD)
-                .chatId(1L)
-                .message("message")
+                .chatId(CHAT_ID)
+                .message(MESSAGE)
                 .build();
         when(telegramClient.execute(any(EditMessageText.class))).thenThrow(TelegramApiException.class);
 
