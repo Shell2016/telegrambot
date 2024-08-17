@@ -12,3 +12,7 @@ logging:
 feign:
   name: botService
   url: http://localhost:8082
+
+logs:
+  loki:
+    base-url: http://localhost:3100
