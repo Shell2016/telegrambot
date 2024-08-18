@@ -16,3 +16,11 @@ feign:
 logs:
   loki:
     base-url: http://localhost:3100
+
+management:
+  server:
+    port: 8081
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
