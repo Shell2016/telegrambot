@@ -21,14 +21,13 @@ USER appuser
 VOLUME /tmp
 
 ENV JAVA_RESERVED_CODE_CACHE_SIZE="240M"
-ENV JAVA_MAX_DIRECT_MEMORY_SIZE="10M"
+ENV JAVA_MAX_DIRECT_MEMORY_SIZE="32M"
 ENV JAVA_MAX_METASPACE_SIZE="179M"
 ENV JAVA_XSS="1M"
 ENV JAVA_XMX="345M"
 ENV JAVA_ERROR_FILE_OPTS="-XX:ErrorFile=/tmp/java_error.log"
 ENV JAVA_HEAP_DUMP_OPTS="-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp"
 ENV JAVA_ON_OUT_OF_MEMORY_OPTS="-XX:+ExitOnOutOfMemoryError"
-ENV JAVA_NATIVE_MEMORY_TRACKING_OPTS="-XX:NativeMemoryTracking=summary -XX:+UnlockDiagnosticVMOptions -XX:+PrintNMTStatistics"
 
 HEALTHCHECK --interval=10s --timeout=3s --start-period=10s --retries=5 \
   CMD wget -qO- http://localhost:8081/actuator/health | grep UP || exit 1
@@ -39,8 +38,8 @@ ENTRYPOINT java \
     -XX:MaxMetaspaceSize=$JAVA_MAX_METASPACE_SIZE \
     -Xss$JAVA_XSS \
     -Xmx$JAVA_XMX \
+    -Xms$JAVA_XMX \
     $JAVA_HEAP_DUMP_OPTS \
     $JAVA_ON_OUT_OF_MEMORY_OPTS \
     $JAVA_ERROR_FILE_OPTS \
-    $JAVA_NATIVE_MEMORY_TRACKING_OPTS \
     -jar app.jar
