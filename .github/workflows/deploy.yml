@@ -14,9 +14,9 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          script: whoami
-#          script: |
-#            cd app
+          script: |
+            cd app
+            touch test1
 #            docker compose up -d --pull always --remove-orphans
 #            docker image prune -f
 
