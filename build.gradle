@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'ru.michaelshell'
-version = '1.1.4'
+version = '1.2.0-SNAPSHOT'
 
 java {
     toolchain {
@@ -61,7 +61,7 @@ tasks.register("bootBuildImageWithVersionTag", BootBuildImage) {
     archiveFile.set(tasks.named("bootJar").get().archiveFile)
     imageName = "shell2016/telegrambot:${version}"
     createdDate = "now"
-    publish = true
+    publish = false
     docker {
         publishRegistry {
             username = System.getenv("DOCKER_USERNAME")
@@ -74,7 +74,7 @@ tasks.register("bootBuildImageWithLatestTag", BootBuildImage) {
     archiveFile.set(tasks.named("bootJar").get().archiveFile)
     imageName = "shell2016/telegrambot:latest"
     createdDate = "now"
-    publish = true
+    publish = false
     docker {
         publishRegistry {
             username = System.getenv("DOCKER_USERNAME")
