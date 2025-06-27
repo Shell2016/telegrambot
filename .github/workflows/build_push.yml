@@ -8,7 +8,7 @@ on:
       - master
 jobs:
   build_push:
-    name: Build and deploy
+    name: Build and push images
     if: github.event.pull_request.merged
     runs-on: ubuntu-latest
     env:
