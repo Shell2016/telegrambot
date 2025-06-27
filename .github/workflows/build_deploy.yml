@@ -1,11 +1,6 @@
 name: Build & deploy docker image
 
 on:
-  push:
-    branches:
-      - fix/**
-      - feature/**
-      - refactor/**
   pull_request:
     types:
       - closed
@@ -14,7 +9,7 @@ on:
 jobs:
   build_push:
     name: Build and deploy
-#    if: github.event.pull_request.merged
+    if: github.event.pull_request.merged
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: shell2016/telegrambot
@@ -49,16 +44,3 @@ jobs:
 
       - name: Push latest tag
         run: docker push $IMAGE_NAME:latest
-
-#      - name: Setup Gradle
-#        uses: gradle/actions/setup-gradle@v3
-#
-#      - name: Build with Gradle
-#        run: ./gradlew build
-#      - name: Build and push images
-#
-#
-#        env:
-#          DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-#          DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-#        run: ./gradlew bootBuildAndPushImages

@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'ru.michaelshell'
-version = '1.2.0-SNAPSHOT'
+version = '1.2.0'
 
 java {
     toolchain {
@@ -54,33 +54,3 @@ dependencyManagement {
 tasks.named('test') {
     useJUnitPlatform()
 }
-
-//tasks.register("bootBuildImageWithVersionTag", BootBuildImage) {
-//    archiveFile.set(tasks.named("bootJar").get().archiveFile)
-//    imageName = "shell2016/telegrambot:${version}"
-//    createdDate = "now"
-//    publish = false
-//    docker {
-//        publishRegistry {
-//            username = System.getenv("DOCKER_USERNAME")
-//            password = System.getenv("DOCKER_PASSWORD")
-//        }
-//    }
-//}
-//
-//tasks.register("bootBuildImageWithLatestTag", BootBuildImage) {
-//    archiveFile.set(tasks.named("bootJar").get().archiveFile)
-//    imageName = "shell2016/telegrambot:latest"
-//    createdDate = "now"
-//    publish = false
-//    docker {
-//        publishRegistry {
-//            username = System.getenv("DOCKER_USERNAME")
-//            password = System.getenv("DOCKER_PASSWORD")
-//        }
-//    }
-//}
-//
-//tasks.register("bootBuildAndPushImages") {
-//    dependsOn "bootBuildImageWithVersionTag", "bootBuildImageWithLatestTag"
-//}
