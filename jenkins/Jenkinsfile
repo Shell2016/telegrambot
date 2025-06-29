@@ -14,6 +14,7 @@ pipeline {
                 checkout scm
                 script {
                     def versionOutput = sh(script: "./gradlew -q properties | grep '^version:'", returnStdout: true).trim()
+                    echo "Raw version output: '${versionOutput}'"
                     env.VERSION = versionOutput.split(':')[1].trim()
                     echo "Detected version: ${env.VERSION}"
                 }
