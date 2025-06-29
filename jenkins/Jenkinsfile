@@ -1,0 +1,49 @@
+pipeline {
+    agent {
+        label 'jdk21_with_docker'
+    }
+
+    environment {
+        IMAGE_NAME = 'shell2016/telegrambot'
+        VERSION = ''
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                checkout scm
+                script {
+                    def versionOutput = sh(script: "./gradlew -q properties | grep '^version:'", returnStdout: true).trim()
+                    env.VERSION = versionOutput.split(':')[1].trim()
+                    echo "Detected version: ${env.VERSION}"
+                }
+                sh './gradlew clean build'
+            }
+        }
+
+        stage('Package and push') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'docker-hub-creds',
+                                                  usernameVariable: 'DOCKER_USERNAME',
+                                                  passwordVariable: 'DOCKER_PASSWORD')]) {
+                sh '''
+                    echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+                    docker build -t $IMAGE_NAME:$VERSION .
+                    docker tag $IMAGE_NAME:$VERSION $IMAGE_NAME:latest
+                    docker push $IMAGE_NAME:$VERSION
+                    docker push $IMAGE_NAME:latest
+                '''
+                }
+            }
+        }
+    }
+
+    post {
+        failure {
+            echo 'Build failed!'
+        }
+        success {
+            echo "Build and push successful. Image: ${IMAGE_NAME}:${env.VERSION}"
+        }
+    }
+}
