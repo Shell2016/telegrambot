@@ -5,7 +5,6 @@ pipeline {
 
     environment {
         IMAGE_NAME = 'shell2016/telegrambot'
-        VERSION = ''
     }
 
     stages {
