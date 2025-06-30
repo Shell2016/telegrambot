@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'shell2016/agent21jdk_docker_cli:latest'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
+            args '-v /var/run/docker.sock:/var/run/docker.sock --user root'
             reuseNode true
         }
     }
