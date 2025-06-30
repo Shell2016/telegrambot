@@ -1,7 +1,9 @@
 pipeline {
     agent {
-        dockerfile {
-            dir 'jenkins'
+        docker {
+            image 'shell2016/agent21jdk_docker_cli:latest'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+            reuseNode true
         }
     }
 
