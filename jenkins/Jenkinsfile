@@ -7,50 +7,11 @@ pipeline {
         }
     }
 
-    environment {
-        IMAGE_NAME = 'shell2016/telegrambot'
-    }
-
     stages {
-        stage('Build') {
+        stage('Test') {
             steps {
-                checkout scm
-                script {
-//                     def versionOutput = sh(script: "./gradlew -q properties | grep '^version:'", returnStdout: true).trim()
-//                     echo "Raw version output: '${versionOutput}'"
-//                     env.VERSION = versionOutput.split(':')[1].trim()
-//                     def versionOutput = sh(script: "./gradlew -q properties | grep '^version:' | cut -d' ' -f2", returnStdout: true).trim()
-//                     echo "Test version output: '${versionOutput}'"
-//                     env.VERSION = versionOutput
-                    env.VERSION = sh(script: "./gradlew -q properties | grep '^version:'", returnStdout: true).trim().split(':')[1].trim()
-                    echo "Detected version: ${env.VERSION}"
-                }
-                sh './gradlew clean build'
+                sh 'docker version'
             }
-        }
-
-        stage('Package') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds',
-                                                  usernameVariable: 'DOCKER_USERNAME',
-                                                  passwordVariable: 'DOCKER_PASSWORD')]) {
-                sh '''
-                    echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-                    docker build -t $IMAGE_NAME:$VERSION .
-                    docker tag $IMAGE_NAME:$VERSION $IMAGE_NAME:latest
-                    docker push $IMAGE_NAME:$VERSION
-                '''
-                }
-            }
-        }
-    }
-
-    post {
-        failure {
-            echo 'Build failed!'
-        }
-        success {
-            echo "Build and push successful. Image: ${IMAGE_NAME}:${env.VERSION}"
         }
     }
 }
