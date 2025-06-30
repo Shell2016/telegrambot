@@ -22,10 +22,10 @@ pipeline {
 //                     def versionOutput = sh(script: "./gradlew -q properties | grep '^version:' | cut -d' ' -f2", returnStdout: true).trim()
 //                     echo "Test version output: '${versionOutput}'"
 //                     env.VERSION = versionOutput
-                    env.VERSION = sh(script: "./gradlew -q properties | grep '^version:'", returnStdout: true).trim().split(':')[1].trim()
+                    env.VERSION = sh(script: "./gradlew -g $WORKSPACE/.gradle -q properties | grep '^version:'", returnStdout: true).trim().split(':')[1].trim()
                     echo "Detected version: ${env.VERSION}"
                 }
-                sh './gradlew clean build'
+                sh './gradlew -g $WORKSPACE/.gradle clean build'
             }
         }
 
